@@ -33,7 +33,7 @@ Este é um projeto de uma aplicação para gerenciar contas a pagar, fornecendo 
    - Definir o projeto de inicialização
      - Vá em propriedades na solução
      - Em configurar projetos de inicialização marque a opção "Vários projetos de inicialização"
-     - Selecione o perfil de inicialização personalizado (API+WEB)
+     - Selecione o perfil de inicialização personalizado (API+WEB) ou selecione a ação para os Projetos Api e Web como "Iniciar".
 
 ## Status
 
