@@ -1,0 +1,61 @@
+﻿@page "/ConsultarContasPagar"
+@inject ContasPagarAPI contaPagarAPI
+@inject NavigationManager navigationManager
+
+<PageTitle>L3 - Consultar Contas</PageTitle>
+
+<MudPaper Elevation="4" Class="px-8 pt-2 pb-4 mx-12 my-8" Justify="Justify.Center">
+
+    <MudText Class="mt-8" Typo="Typo.h4">Todas as Contas</MudText>
+
+    @if (_contasPagar is not null)
+    {
+        <MudSimpleTable Hover="true" Elevation="2" FixedHeader="true" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Valor Original</th>
+                    <th>Valor Corrigido</th>
+                    <th>Dias de Atraso</th>
+                    <th>Data do Pagamento</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in _contasPagar)
+                {
+                    <tr>
+                        <td>@row.Nome</td>
+                        <td> <b>@row.ValorOriginal.ToString("N2")</b></td>
+                        <td> <b>@row.ValorCorrigido.ToString("N2")</b></td>
+                        <td>@row.DiasAtraso</td>
+                        <td>@row.DataPagamento.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    }
+    <MudToolBar>
+        <MudSwitch @bind-Checked="@striped" Color="Color.Primary">Listrar</MudSwitch>
+        <MudSwitch @bind-Checked="@bordered" Color="Color.Primary">Mostrar Bordas</MudSwitch>
+        <MudSpacer />
+        <MudIconButton @onclick="Cadastrar" Icon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" />
+    </MudToolBar>
+
+
+</MudPaper>
+
+@code {
+    private bool striped = false;
+    private bool bordered = true;
+
+    private ICollection<ContasPagarResponse>? _contasPagar;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _contasPagar = await contaPagarAPI.GetContasPagarAsync();
+    }
+    private async Task Cadastrar()
+    {
+        navigationManager.NavigateTo("/CadastrarConta");
+    }
+}

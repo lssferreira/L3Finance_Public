@@ -1,0 +1,19 @@
+﻿<MudPaper Width="250px" Elevation="0">
+
+    <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Info" Class="pa-2">
+
+        <MudNavGroup Title="Contas a Pagar" Icon="@Icons.Material.Filled.MoneyOff" Expanded="true">
+        <MudNavLink Href="/ConsultarContasPagar" Icon="@Icons.Material.Filled.Dvr">
+            Consultar
+        </MudNavLink>
+        <MudNavLink Match="NavLinkMatch.Prefix" Href="/CadastrarConta" Icon="@Icons.Material.Filled.Save">
+            Cadastrar
+            </MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+
+</MudPaper>
+
+@code{
+    bool _isExpanded = true;
+}

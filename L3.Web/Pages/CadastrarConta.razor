@@ -1,0 +1,101 @@
+﻿@page "/CadastrarConta"
+@inject ContasPagarAPI contasPagarAPI
+@inject NavigationManager navigationManager
+
+<PageTitle>L3 - Cadastrar Conta</PageTitle>
+
+<MudPaper Elevation="4" Class="px-8 pt-2 pb-4 mx-12 my-8" Justify="Justify.Center">
+
+    <MudText Class="mt-8" Typo="Typo.h4">Cadastro de Contas</MudText>
+    <MudGrid>
+
+        <MudItem xs="6" sm="6">
+            <MudCard>
+
+                <MudForm>
+
+                    <MudCardContent>
+                        <MudTextField T="string" Label="Nome" @bind-Value="Nome" Variant="Variant.Outlined"
+                                      Required="true" RequiredError="O nome é obrigatório!" />
+
+                        <MudNumericField Immediate="false" Label="Valor" @bind-Value="Valor" Format="N2"
+                                         Variant="Variant.Outlined" Culture="@_ptbr" T="double?" Required="true" RequiredError="O valor é obrigatório!" />
+                        <MudDatePicker For="@(() => model.Date)" @bind-Date="DataVencimento" Variant="Variant.Outlined"
+                                       Label="Data Vencimento" Required="true" RequiredError="A Data de Vencimento é obrigatória!" />
+                        <MudDatePicker For="@(() => model.Date)" @bind-Date="DataPagamento" Variant="Variant.Outlined"
+                                       Label="Data Pagamento" Required="true" RequiredError="A Data de Pagamento é obrigatória!" />
+                    </MudCardContent>
+
+                    @* <MudDivider DividerType="DividerType.Middle" Class="my-6" /> *@
+
+                    @* <MudCardContent class="align-center justify-center"> *@
+                    @* <MudButton Variant="Variant.Filled" Color="Color.Tertiary" Size="Size.Small" OnClick="OnExpandCollapseClick">Mostrar Valor Corrigido</MudButton> *@
+                    @* <MudCollapse Expanded="_expanded"> *@
+                    @* <MudNumericField Immediate="false" ReadOnly="true" Label="Mostrar Valor Corrigido" @bind-Value="Valor" Format="N2" *@
+                    @* Variant="Variant.Text" Culture="@_ptbr" T="double?" /> *@
+                    @* </MudCollapse> *@
+                    @* </MudCardContent> *@
+
+
+
+                </MudForm>
+
+
+            </MudCard>
+
+            <div class="d-flex justify-space-between mt-4">
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="Voltar">Voltar</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Cadastrar" StartIcon="@Icons.Material.Filled.Save">Cadastrar</MudButton>
+            </div>
+
+        </MudItem>
+
+    </MudGrid>
+
+</MudPaper>
+
+@code {
+    public string ReadOnly { get; set; } = "Can't change me";
+    public CultureInfo _ptbr = CultureInfo.GetCultureInfo("pt-BR");
+
+    public double? _valuePtBr = 1234.56;
+
+    DisplayNameLabelClass model = new();
+
+    private string? Nome;
+    private double? Valor;
+    private DateTime? DataPagamento;
+    private DateTime? DataVencimento;
+
+    private double? ValorCorrigido;
+
+
+    bool _expanded = false;
+
+    private void OnExpandCollapseClick()
+    {
+        _expanded = !_expanded;
+    }
+
+    public class DisplayNameLabelClass
+    {
+        [Label("Date LabelAttribute")]
+        public DateTime? Date { get; set; }
+        [Label("Boolean LabelAttribute")]
+        public bool Boolean { get; set; }
+        [Label("String LabelAttribute")]
+        public string String { get; set; }
+    }
+
+    private async Task Cadastrar()
+    {
+        var request = new ContasPagarRequest(Nome!, Convert.ToDecimal(Valor), DataVencimento.Value, DataPagamento.Value);
+        await contasPagarAPI.AddContasPagarAsync(request);
+        navigationManager.NavigateTo("/ConsultarContasPagar");
+    }
+
+    private async Task Voltar()
+    {
+        navigationManager.NavigateTo("/ConsultarContasPagar");
+    }
+}

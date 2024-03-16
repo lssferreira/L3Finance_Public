@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "API\u002BWeb",
+    "Projects": [
+      {
+        "Name": "L3.API\\L3.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Name": "L3.Web\\L3.Web.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]
